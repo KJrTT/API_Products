@@ -75,7 +75,7 @@ def update_product(product_id: int , body: ProductIn):
         raise HTTPException(400, "Цена не может быть отрицательной")
     
     product_index = None
-    for s,i in enumerate(db):
+    for i,s in enumerate(db):
         if s["id"] == product_id:
             product_index = i
             break
