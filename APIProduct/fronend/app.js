@@ -138,3 +138,15 @@ async function editProduct(product){
         console.error(err);
     }
 }
+
+async function deleteProduct(id){
+    if (!confirm("Удалить товар?")) return;
+    try{
+        await fetch(`${API}/products/${id}`, {method: "DELETE"});
+        loadProducts();
+    }
+    catch(err){
+        alert("Ошибка при удалении товара");
+        console.error(err);
+    }
+}
