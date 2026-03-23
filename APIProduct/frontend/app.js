@@ -24,13 +24,13 @@ async function loadProducts() {
         const params = [];
 
         if (currentFilters.min_price !== null && currentFilters.min_price !== ""){
-            params.push(`max_price=${currentFilters.min_price}`);
+            params.push(`min_price=${currentFilters.min_price}`);
         }
         if (currentFilters.max_price !== null && currentFilters.max_price !== ""){
             params.push(`max_price=${currentFilters.max_price}`);
         }
         if (currentFilters.in_stock !== null){
-            params.push(`max_price=${currentFilters.in_stock}`);
+            params.push(`in_stock=${currentFilters.in_stock}`);
         }
         url += params.join("&");
 
@@ -38,7 +38,7 @@ async function loadProducts() {
         const data = await res.json();
         productList.innerHTML = "";
 
-        data.array.forEach(p => {
+        data.forEach(p => {
             const li = document.createElement("li");
             const name = document.createElement("span");
             name.textContent = p.name;

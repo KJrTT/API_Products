@@ -15,14 +15,13 @@ class ProductIn(BaseModel):
     name: str
     in_stock: bool = True
     price: int
-    id: int
 
 
 @router.get("/")
 def get_products(min_price: int = None, max_price: int = None, in_stock: bool = None):
     result = db.copy()
 
-    if min_price is not None and max_price is not None and min_price < max_price:
+    if min_price is not None and max_price is not None and min_price > max_price:
         raise HTTPException(400, "min_price не может быть больше max_price")
     
     if min_price is not None:
