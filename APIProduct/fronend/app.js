@@ -101,3 +101,40 @@ productForm.addEventListener("submit", async (e) => {
         console.error(err);
     }
 });
+
+async function editProduct(product){
+    const newName = prompt("Введите новое название", product.name);
+    if (newName === null){
+        return;
+    } 
+    const newPrice = prompt("Введите новую цену", product.price);
+    if (newPrice < 0 && newPrice === null){
+        return;
+    }
+    const newStock = confirm("Товар в наличии? Нажмите OK для Да, Отвема для Нет");
+
+    const updatedProduct = {
+        name: newName.trim(),
+        price: Number(newPrice),
+        in_stock: newStock
+    };
+
+    try {
+        const res = await fetch(`${API}/products/${product.id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(updatedProduct),
+        });
+        
+        if (!res.ok) {
+            const error = await res.json();
+            alert(`Ошибка: ${error.detail}`);
+            return;
+        }
+        
+        loadProducts();
+    } catch (err) {
+        alert("Ошибка при редактировании товара");
+        console.error(err);
+    }
+}
