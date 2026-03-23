@@ -70,3 +70,34 @@ async function loadProducts() {
         console.error("loadProducts error:", err);
     }
 }
+
+productForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    
+    const newProduct = {
+        name: productName.value.trim(),
+        price: Number(productPrice.value),
+        in_stock: productInStock.checked
+    };
+    
+    try {
+        const res = await fetch(`${API}/products/`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(newProduct),
+        });
+        
+        if (!res.ok) {
+            const error = await res.json();
+            alert(`Ошибка: ${error.detail}`);
+            return;
+        }
+        
+        productForm.reset();
+        productInStock.checked = true;
+        loadProducts();
+    } catch (err) {
+        alert("Ошибка при добавлении товара");
+        console.error(err);
+    }
+});
