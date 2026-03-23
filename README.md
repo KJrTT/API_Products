@@ -30,8 +30,7 @@
 
 #Запуск приложения
 
-1. 
-```
+1. ```
 git clone https://github.com/KJrTT/API_Products.git
 ```
 
@@ -45,8 +44,7 @@ git clone https://github.com/KJrTT/API_Products.git
 
 6. Переходим в папку backend
 
-7. 
-```
+7. ```
 pip install -r requirements.txt
 ```
 8. После установки в той же папки пишем
