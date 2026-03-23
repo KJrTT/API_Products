@@ -34,8 +34,8 @@ def get_products(min_price: int = None, max_price: int = None, in_stock: bool = 
     
     return result
 
-@router.get("/")
-def get_product_id(product_id: int):
+@router.get("/{product_id}")
+def get_product(product_id: int):
     for p in db:
         if p["id"] == product_id:
             return p
@@ -48,7 +48,7 @@ def checkunique_name(name: str):
            in_unique = False
     return in_unique
 
-@router.post("/")
+@router.post("/", status_code=201)
 def add_product(body: ProductIn):
     global next_id
     if not body.name.strip():
@@ -65,3 +65,28 @@ def add_product(body: ProductIn):
     db.append(product)
     next_id += 1
     return product
+
+
+@router.put("/{product_id}")
+def update_product(product_id: int , body: ProductIn):
+    name_length = len(body.name.strip())
+    if name_length < 2 or name_length > 80:
+        raise HTTPException(400, "Название должно быть от 2 до 80 символов")
+    if body.price < 0:
+        raise HTTPException(400, "Цена не может быть отрицательной")
+    
+    product_index = None
+    for s,i in enumerate(db):
+        if s["id"] == product_id:
+            product_index = i
+            break
+
+    if product_index is None:
+        raise HTTPException(400, "Товар не найден")
+    for s in db:
+        if s["id"] != product_id and body.name.strip().lower() == s["name"].lower():
+            raise HTTPException(400, "Товар с таким названием уже существует")
+    
+    db[product_index] = {"id": product_id, "name": body.name.strip(), "price": body.price, "in_stock": body.in_stock}
+    return db[product_index]
+
