@@ -33,3 +33,35 @@ def get_products(min_price: int = None, max_price: int = None, in_stock: bool = 
         result = [p for p in result if p["in_stock"] == in_stock]
     
     return result
+
+@router.get("/")
+def get_product_id(product_id: int):
+    for p in db:
+        if p["id"] == product_id:
+            return p
+    raise HTTPException(404, "Товар не найден")
+
+def checkunique_name(name: str):
+    in_unique = True
+    for s in db:
+       if s["name"].lower() == name.lower():
+           in_unique = False
+    return in_unique
+
+@router.post("/")
+def add_product(body: ProductIn):
+    global next_id
+    if not body.name.strip():
+        raise HTTPException(400, "Название не может быть пустым")
+    name_length = len(body.name.strip())
+    if name_length < 2 or name_length > 80:
+        raise HTTPException(400, "Название должно быть от 2 до 80 символов")
+    if not checkunique_name(body.name.strip()):
+        raise HTTPException(400, "Название должно быть уникальным")
+    if body.price < 0:
+        raise HTTPException(400, "Цена не может быть отрицательной")
+    
+    product = {"id": next_id, "name": body.name.strip(), "price": body.price, "in_stock": body.in_stock}
+    db.append(product)
+    next_id += 1
+    return product
