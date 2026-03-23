@@ -90,3 +90,12 @@ def update_product(product_id: int , body: ProductIn):
     db[product_index] = {"id": product_id, "name": body.name.strip(), "price": body.price, "in_stock": body.in_stock}
     return db[product_index]
 
+
+@router.delete("/{product_id}", status_code=204)
+def delete_product(product_id: int):
+    global db
+    before = len(db)
+    db = [s for s in db if s["id"] != product_id]
+    
+    if len(db) == before:
+        raise HTTPException(404, "Товар не найден")
