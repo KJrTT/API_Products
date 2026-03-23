@@ -150,3 +150,13 @@ async function deleteProduct(id){
         console.error(err);
     }
 }
+
+applyFilters.addEventListener("click", (e) =>{
+    currentFilters = {
+        min_price: minPrice.value ? Number(minPrice.value) : null,
+        max_price: maxPrice.value ? Number(maxPrice.value) : null,
+        in_stock: filterInStock.checked ? true : null
+    };
+    loadProducts();
+})
+
