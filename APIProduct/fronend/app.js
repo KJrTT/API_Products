@@ -160,3 +160,17 @@ applyFilters.addEventListener("click", (e) =>{
     loadProducts();
 })
 
+resetFilters.addEventListener("click", (e) => {
+    minPrice.value = "";
+    maxPrice.value = "";
+    filterInStock.checked = false;
+    currentFilters = {
+        min_price: null,
+        max_price: null,
+        in_stock: null
+    };
+
+    loadProducts();
+})
+
+loadProducts();
