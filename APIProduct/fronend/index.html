@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HW — Магазин</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>🛒 Магазин</h1>
+
+  <section>
+    <h2>Товары</h2>
+
+    <form id="product-form">
+      <input id="product-name" type="text" placeholder="Название товара (2-80 символов)" required />
+      <input id="product-price" type="number" placeholder="Цена" min="0" required />
+      <label>
+        <input type="checkbox" id="product-in-stock" checked />
+        В наличии
+      </label>
+      <button type="submit">Добавить</button>
+    </form>
+
+    <div class="filters">
+      <h3>Фильтры</h3>
+      <div class="filter-row">
+        <input id="min-price" type="number" placeholder="Мин. цена" min="0" />
+        <input id="max-price" type="number" placeholder="Макс. цена" min="0" />
+      </div>
+      <div class="filter-row">
+        <label>
+          <input type="checkbox" id="filter-in-stock" />
+          Только в наличии
+        </label>
+        <button id="apply-filters">Применить</button>
+        <button id="reset-filters">Сбросить</button>
+      </div>
+    </div>
+
+    <ul id="product-list"></ul>
+  </section>
+
+  <script src="app.js"></script>
+</body>
+</html>
